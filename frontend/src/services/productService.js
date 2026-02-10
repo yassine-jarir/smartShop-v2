@@ -1,0 +1,30 @@
+import api from './api';
+
+export const productService = {
+  getAll: async (page = 0, size = 10, search = '') => {
+    const params = { page, size };
+    if (search) params.search = search;
+    const response = await api.get('/admin/products', { params });
+    return response.data;
+  },
+
+  getById: async (id) => {
+    const response = await api.get(`/admin/products/${id}`);
+    return response.data;
+  },
+
+  create: async (productData) => {
+    const response = await api.post('/admin/products', productData);
+    return response.data;
+  },
+
+  update: async (id, productData) => {
+    const response = await api.put(`/admin/products/${id}`, productData);
+    return response.data;
+  },
+
+  delete: async (id) => {
+    const response = await api.delete(`/admin/products/${id}`);
+    return response.data;
+  },
+};
