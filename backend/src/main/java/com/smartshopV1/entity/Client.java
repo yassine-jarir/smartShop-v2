@@ -21,7 +21,9 @@ public class Client {
     private String email;
 
     @Enumerated(EnumType.STRING)
-    private ClientTier niveauFidelite;
+    @Column(nullable = false)
+    @Builder.Default
+    private ClientTier niveauFidelite = ClientTier.BASIC;
 
     private int totalOrders;
     private BigDecimal totalSpent;

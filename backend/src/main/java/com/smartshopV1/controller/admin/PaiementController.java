@@ -35,7 +35,7 @@ public class PaiementController {
 //    public ResponseEntity<List<UserResponseDTO>> listUsers() {
 //        return ResponseEntity.ok(adminUserService.listUsers());
 //    }
-//
+//// test 
 //    @RequireAdmin
 //    @GetMapping("/{id}")
 //    public ResponseEntity<UserResponseDTO> getUser(@PathVariable Long id) {

@@ -32,6 +32,11 @@ public class AdminClientServiceImpl implements AdminClientService {
 
     @Override
     public ClientResponseDTO createClient(ClientRequestDTO dto) {
+        
+        // Password is required for client creation
+        if (dto.getPassword() == null || dto.getPassword().isBlank()) {
+            throw new RuntimeException("Password is required for client creation");
+        }
 
         User user = User.builder()
                 .username(dto.getUsername())
@@ -60,6 +65,11 @@ public class AdminClientServiceImpl implements AdminClientService {
     public ClientResponseDTO getClient(Long id) {
         Client client = clientRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Client not found"));
+        // Ensure niveauFidelite is set
+        if (client.getNiveauFidelite() == null) {
+            client.setNiveauFidelite(ClientTier.BASIC);
+            clientRepository.save(client);
+        }
         return clientMapper.toResponseDTO(client);
     }
 
@@ -67,6 +77,12 @@ public class AdminClientServiceImpl implements AdminClientService {
     @Transactional(readOnly = true)
     public List<ClientResponseDTO> listClients() {
         return clientRepository.findAll().stream()
+                .peek(client -> {
+                    // Ensure niveauFidelite is set for all clients
+                    if (client.getNiveauFidelite() == null) {
+                        client.setNiveauFidelite(ClientTier.BASIC);
+                    }
+                })
                 .map(clientMapper::toResponseDTO)
                 .collect(Collectors.toList());
     }
@@ -83,7 +99,12 @@ public class AdminClientServiceImpl implements AdminClientService {
         // Update linked user
         User user = client.getUser();
         user.setUsername(dto.getUsername());
-        user.setPassword(hashPassword(dto.getPassword()));
+        
+        // Only update password if provided
+        if (dto.getPassword() != null && !dto.getPassword().isBlank()) {
+            user.setPassword(hashPassword(dto.getPassword()));
+        }
+        
         userRepository.save(user);
 
         Client updated = clientRepository.save(client);

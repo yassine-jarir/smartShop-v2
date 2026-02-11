@@ -5,3 +5,11 @@ public enum TypePaiement {
     CHEQUE,
     VIREMENT
 }
+
+
+
+
+
+
+
+

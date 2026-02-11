@@ -22,6 +22,6 @@ public class  ClientRequestDTO {
     @NotBlank(message = "Username is required")
     private String username;
 
-    @NotBlank(message = "Password is required")
+    // Password is optional for updates, required for creation
     private String password;
 }

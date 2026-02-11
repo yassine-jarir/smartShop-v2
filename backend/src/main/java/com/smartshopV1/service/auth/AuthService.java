@@ -21,8 +21,8 @@ public class AuthService {
         User user = userRepository.findByUsername(username)
                 .orElseThrow(() -> new UnauthorizedException("Invalid username or password"));
 
-        // Compare RAW password (brief does NOT require hashing)
-        if (!rawPassword.equals(user.getPassword())) {
+        // Check password using BCrypt (passwords are hashed when creating users)
+        if (!checkPassword(rawPassword, user.getPassword())) {
             throw new UnauthorizedException("Invalid username or password");
         }
 
