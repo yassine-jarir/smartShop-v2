@@ -65,11 +65,6 @@ public class AdminClientServiceImpl implements AdminClientService {
     public ClientResponseDTO getClient(Long id) {
         Client client = clientRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Client not found"));
-        // Ensure niveauFidelite is set
-        if (client.getNiveauFidelite() == null) {
-            client.setNiveauFidelite(ClientTier.BASIC);
-            clientRepository.save(client);
-        }
         return clientMapper.toResponseDTO(client);
     }
 
@@ -77,12 +72,6 @@ public class AdminClientServiceImpl implements AdminClientService {
     @Transactional(readOnly = true)
     public List<ClientResponseDTO> listClients() {
         return clientRepository.findAll().stream()
-                .peek(client -> {
-                    // Ensure niveauFidelite is set for all clients
-                    if (client.getNiveauFidelite() == null) {
-                        client.setNiveauFidelite(ClientTier.BASIC);
-                    }
-                })
                 .map(clientMapper::toResponseDTO)
                 .collect(Collectors.toList());
     }

@@ -43,6 +43,11 @@ public class AdminCodePromoController {
         return ResponseEntity.ok(codePromoService.updateCodePromo(id, dto));
     }
 
+    @GetMapping("/validate/{code}")
+    public ResponseEntity<CodePromoResponseDTO> validate(@PathVariable String code) {
+        return ResponseEntity.ok(codePromoService.getCodePromoByCode(code));
+    }
+
     @RequireAdmin
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> delete(@PathVariable Long id) {

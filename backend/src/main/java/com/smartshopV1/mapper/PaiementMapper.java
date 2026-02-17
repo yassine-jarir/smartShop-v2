@@ -11,10 +11,6 @@ import org.mapstruct.MappingTarget;
 public interface PaiementMapper {
 
     @Mapping(target = "commandeId", source = "commande.id")
-    @Mapping(target = "numeroCheque", expression = "java(paiement.getTypePaiement() == com.smartshopV1.enums.TypePaiement.CHEQUE ? paiement.getReference() : null)")
-    @Mapping(target = "banqueCheque", expression = "java(paiement.getTypePaiement() == com.smartshopV1.enums.TypePaiement.CHEQUE ? paiement.getBanque() : null)")
-    @Mapping(target = "referenceVirement", expression = "java(paiement.getTypePaiement() == com.smartshopV1.enums.TypePaiement.VIREMENT ? paiement.getReference() : null)")
-    @Mapping(target = "banqueVirement", expression = "java(paiement.getTypePaiement() == com.smartshopV1.enums.TypePaiement.VIREMENT ? paiement.getBanque() : null)")
     PaiementResponseDTO toResponseDTO(Paiement paiement);
 
     @Mapping(target = "id", ignore = true)
