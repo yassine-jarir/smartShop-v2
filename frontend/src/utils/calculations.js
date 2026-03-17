@@ -1,8 +1,4 @@
-// Validate promo code format (PROMO-XXXX)
-export const validatePromoCode = (code) => {
-  const promoPattern = /^PROMO-[A-Z0-9]{4}$/;
-  return promoPattern.test(code);
-};
+ 
 
 // Round amount to 2 decimal places
 export const roundAmount = (amount) => {
